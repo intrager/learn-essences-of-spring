@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import moviebuddy.MovieBuddyApplication;
 import moviebuddy.MovieBuddyFactory;
@@ -12,8 +14,10 @@ import moviebuddy.MovieBuddyFactory;
  * @author springrunner.kr@gmail.com
  */
 public class MovieFinderTest {
-	MovieBuddyFactory movieBuddyFactory = new MovieBuddyFactory();	
-	MovieFinder movieFinder = new MovieFinder(new CsvMovieReader());	
+	
+	final ApplicationContext applicationContext = 
+			new AnnotationConfigApplicationContext(MovieBuddyFactory.class);	
+	final MovieFinder movieFinder = applicationContext.getBean(MovieFinder.class);	
 	
 	@Test
 	void NotEmpty_directedBy() {

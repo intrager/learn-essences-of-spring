@@ -8,17 +8,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import moviebuddy.MovieBuddyApplication;
 import moviebuddy.MovieBuddyFactory;
+import moviebuddy.MovieBuddyProfile;
 
 /**
  * @author springrunner.kr@gmail.com
  */
 
+@ActiveProfiles(MovieBuddyProfile.XML_MODE)
 @SpringJUnitConfig(MovieBuddyFactory.class)
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration(classes = MovieBuddyFactory.class)

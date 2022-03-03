@@ -21,7 +21,7 @@ import moviebuddy.MovieBuddyProfile;
  * @author springrunner.kr@gmail.com
  */
 
-@ActiveProfiles(MovieBuddyProfile.XML_MODE)
+@ActiveProfiles(MovieBuddyProfile.CSV_MODE)
 @SpringJUnitConfig(MovieBuddyFactory.class)
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration(classes = MovieBuddyFactory.class)
@@ -50,5 +50,6 @@ public class MovieFinderTest {
 	void NotEmpty_ReleasedYearBy() {
 		List<Movie> movies = movieFinder.releasedYearBy(2015);
 		Assertions.assertEquals(225,movies.size());
-	}	
+	}
+	
 }

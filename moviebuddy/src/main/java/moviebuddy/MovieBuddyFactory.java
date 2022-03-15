@@ -3,8 +3,10 @@ package moviebuddy;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+import moviebuddy.cache.CachingAdvice;
 import moviebuddy.data.CachingMovieReader;
 import moviebuddy.data.CsvMovieReader;
 import moviebuddy.domain.Movie;
@@ -54,8 +57,18 @@ public class MovieBuddyFactory {
 		
 		@Primary
 		@Bean
-		public MovieReader cachingMovieReader(CacheManager cacheManager, MovieReader target) {
-			return new CachingMovieReader(cacheManager, target);
+		public ProxyFactoryBean cachingMovieReaderFactory(ApplicationContext applicationContext) {
+			MovieReader target = applicationContext.getBean(MovieReader.class);
+			CacheManager cacheManager = applicationContext.getBean(CacheManager.class);
+			
+			ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
+			proxyFactoryBean.setTarget(target);
+			
+			// 클래스 프락시 활성화(true)/비활성화(false, default임)
+			// proxyFactoryBean.setProxyTargetClass(true);
+			proxyFactoryBean.addAdvice(new CachingAdvice(cacheManager));
+		
+			return proxyFactoryBean;
 		}
 	}
 }

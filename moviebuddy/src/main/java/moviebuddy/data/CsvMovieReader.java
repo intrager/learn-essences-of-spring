@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.cache.annotation.CacheResult;
+
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Profile;
@@ -40,6 +42,7 @@ public class CsvMovieReader extends AbstractMetadataResourceMovieReader implemen
      * @return 불러온 영화 목록
      */
 	@Override
+	@CacheResult(cacheName = "movies")
     public List<Movie> loadMovies() {
 //		// 캐시에 저장된 데이터가 있다면 즉시 반환
 //		Cache cache = cacheManager.getCache(getClass().getName());
